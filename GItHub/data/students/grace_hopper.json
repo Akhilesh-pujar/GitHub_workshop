@@ -1,0 +1,25 @@
+{
+  "username": "grace-hopper",
+  "name": "Rear Admiral Grace Hopper",
+  "role": "Pioneer of Compilers & COBOL",
+  "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80",
+  "bio": "Invented the first compiler and popularized the term 'debugging' after finding an actual moth in the Mark II computer.",
+  "location": "Arlington, Virginia",
+  "skills": ["Compilers", "COBOL", "Architecture", "Debugging", "Education"],
+  "stats": {
+    "debugging": 100,
+    "caffeine": 85,
+    "promptCrafting": 94,
+    "lateNightCoding": 91
+  },
+  "signatureMove": {
+    "name": "Nanosecond Extraction",
+    "description": "Explains speed of light with a wire piece and eliminates code bloat instantly."
+  },
+  "socials": {
+    "github": "https://github.com",
+    "linkedin": "https://linkedin.com",
+    "portfolio": "https://en.wikipedia.org/wiki/Grace_Hopper"
+  },
+  "favoriteQuote": "It's easier to ask forgiveness than it is to get permission."
+}

@@ -1,0 +1,30 @@
+{
+  "username": "your-github-username",
+  "name": "Your Full Name",
+  "role": "Student Developer / Open Source Explorer",
+  "avatar": "https://github.com/your-github-username.png",
+  "bio": "Passionate about building cool web apps, exploring open source, and learning Git!",
+  "location": "Bengaluru, India",
+  "skills": [
+    "JavaScript",
+    "Python",
+    "Git",
+    "HTML/CSS"
+  ],
+  "stats": {
+    "debugging": 85,
+    "caffeine": 90,
+    "promptCrafting": 80,
+    "lateNightCoding": 95
+  },
+  "signatureMove": {
+    "name": "Branch Wizardry",
+    "description": "Magically reconciles conflicting branches with zero casualties."
+  },
+  "socials": {
+    "github": "https://github.com/your-github-username",
+    "linkedin": "https://linkedin.com/in/your-profile",
+    "portfolio": "https://yourwebsite.dev"
+  },
+  "favoriteQuote": "First, solve the problem. Then, write the code."
+}

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DevPulse - Interactive Developer Showcase, RPG Battle Arena, and Collaborative Git Workshop Hub">
+  <title>DevPulse 🚀 Git Workshop & Community Hub</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+</head>
+<body>
+  <div class="cyber-grid-bg"></div>
+  <canvas id="confetti-canvas"></canvas>
+
+  <header class="site-header">
+    <div class="app-container header-inner">
+      <a href="#" class="brand-logo" id="brand-home-link">
+        <div class="logo-icon-wrap">⚡</div>
+        <div>
+          <span class="brand-title">DevPulse</span>
+          <span class="brand-tag">Git Workshop Edition</span>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <button id="audio-toggle-btn" class="btn-audio" title="Toggle Sound Effects">🔊 Sound: On</button>
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline" id="github-repo-btn">
+          <span>GitHub</span> ↗
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-container">
+    <!-- Top Navigation Tabs -->
+    <nav class="nav-tabs-wrapper">
+      <div class="nav-tabs" role="tablist">
+        <button class="nav-tab-btn active" data-tab="contributors" role="tab" id="tab-btn-contributors">
+          <span>🌟</span> Contributors Hub
+        </button>
+        <button class="nav-tab-btn" data-tab="arena" role="tab" id="tab-btn-arena">
+          <span>⚔️</span> Git Duel Arena
+        </button>
+        <button class="nav-tab-btn" data-tab="arcade" role="tab" id="tab-btn-arcade">
+          <span>🎮</span> Git Mini-Arcade
+        </button>
+        <button class="nav-tab-btn" data-tab="guide" role="tab" id="tab-btn-guide">
+          <span>📖</span> Git Guide
+        </button>
+      </div>
+    </nav>
+
+    <!-- TAB 1: CONTRIBUTORS HUB -->
+    <section id="tab-contributors" class="tab-panel active">
+      <div class="hero-section">
+        <div class="hero-pill">✨ Hands-On Open Source Collaboration</div>
+        <h1 class="hero-title">Meet The Workshop <span class="hero-gradient-text">Developers</span></h1>
+        <p class="hero-subtitle">
+          Fork the repository, create your feature branch, add your developer card in <code>data/students/</code>, 
+          and open a Pull Request to join this live community wall!
+        </p>
+      </div>
+
+      <!-- Workshop Metrics Banner -->
+      <div class="stats-banner">
+        <div class="stat-item">
+          <div class="stat-icon contributors">👥</div>
+          <div>
+            <div class="stat-number" id="stat-total-contributors">0</div>
+            <div class="stat-label">Active Contributors</div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon skills">🛠️</div>
+          <div>
+            <div class="stat-number" id="stat-unique-skills">0</div>
+            <div class="stat-label">Unique Skills Tagged</div>
+          </div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon kudos">💖</div>
+          <div>
+            <div class="stat-number" id="stat-total-kudos">0</div>
+            <div class="stat-label">Community Kudos Given</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search, Sort & Skill Filters -->
+      <div class="toolbar-section">
+        <div class="search-row">
+          <div class="search-input-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" class="search-input" placeholder="Search by student name, @username, skill, or location...">
+          </div>
+          <select id="sort-select" class="sort-select">
+            <option value="default">Sort by: Default</option>
+            <option value="name">Sort by: Name (A-Z)</option>
+            <option value="kudos">Sort by: Most Kudos 💖</option>
+            <option value="debugging">Sort by: Debugging Master ⚡</option>
+            <option value="caffeine">Sort by: Caffeine Level ☕</option>
+          </select>
+        </div>
+
+        <div class="skills-pills-row" id="skills-filter-container">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </div>
+
+      <!-- Cards Grid -->
+      <div class="profiles-grid" id="profiles-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- TAB 2: GIT DUEL ARENA -->
+    <section id="tab-arena" class="tab-panel">
+      <div class="arena-container">
+        <div class="arena-header">
+          <h2 class="arena-title">⚔️ Git Duel RPG Battle Arena</h2>
+          <p class="arena-subtitle">Pick any two workshop contributors and watch their developer stats collide in a simulated turn-based duel!</p>
+        </div>
+
+        <div class="arena-matchup-row">
+          <div class="fighter-slot">
+            <label for="arena-fighter-1">Select Contender 1:</label>
+            <select id="arena-fighter-1" class="fighter-select"></select>
+            <div id="fighter-1-card"></div>
+          </div>
+
+          <div class="arena-vs-badge">VS</div>
+
+          <div class="fighter-slot">
+            <label for="arena-fighter-2">Select Contender 2:</label>
+            <select id="arena-fighter-2" class="fighter-select"></select>
+            <div id="fighter-2-card"></div>
+          </div>
+        </div>
+
+        <div class="arena-controls">
+          <button id="start-battle-btn" class="btn btn-primary btn-battle">⚔️ Start Git Duel!</button>
+          <button id="reset-battle-btn" class="btn btn-outline">🔄 Reset</button>
+        </div>
+
+        <div class="battle-log-container" id="battle-log-messages">
+          <div class="log-entry system">Ready for battle. Select two developers and click Start!</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: GIT MINI-ARCADE -->
+    <section id="tab-arcade" class="tab-panel">
+      <div class="arcade-grid">
+        <!-- Speed Typer Game -->
+        <div class="arcade-card">
+          <div class="arcade-card-header">
+            <span class="arcade-tag">Mini-Game 1</span>
+            <h3 class="arcade-title">⚡ Git Command Speed Typer</h3>
+            <p class="step-desc">Test your muscle memory! Type the Git command matching each scenario before time runs out.</p>
+          </div>
+
+          <div class="typer-status-bar">
+            <span>Score: <strong id="typer-score">0</strong></span>
+            <span>Time: <strong id="typer-time">30s</strong></span>
+          </div>
+
+          <div class="typer-target-display">
+            <div class="typer-prompt" id="typer-prompt">Click "Start Speed Typer" to begin!</div>
+            <div class="typer-target" id="typer-target">git checkout -b feature/awesome</div>
+          </div>
+
+          <input type="text" id="typer-input" class="typer-input" placeholder="Type command here and press enter..." disabled autocomplete="off" spellcheck="false">
+
+          <button id="typer-start-btn" class="btn btn-primary">⚡ Start Speed Typer (30s)</button>
+        </div>
+
+        <!-- Git Quizzer -->
+        <div class="arcade-card">
+          <div class="arcade-card-header">
+            <span class="arcade-tag">Mini-Game 2</span>
+            <h3 class="arcade-title">🎓 Git & GitHub Knowledge Quiz</h3>
+            <p class="step-desc">Test your understanding of Git fundamentals, branching, and pull requests.</p>
+          </div>
+
+          <div id="quiz-box">
+            <!-- Rendered dynamically by arcade.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Community Soundboard -->
+      <div class="soundboard-section">
+        <h3 class="arcade-title">🔊 Workshop Audio Soundboard</h3>
+        <p class="step-desc">Synthesized in real-time with Web Audio API. Trigger audio feedback during live demos!</p>
+        <div class="soundboard-grid">
+          <button class="soundboard-btn" data-sound="kudos">💖 Kudos Chime</button>
+          <button class="soundboard-btn" data-sound="attack">⚡ Zap / Laser</button>
+          <button class="soundboard-btn" data-sound="victory">🏆 Victory Fanfare</button>
+          <button class="soundboard-btn" data-sound="success">✅ Commit Success</button>
+          <button class="soundboard-btn" data-sound="error">❌ Merge Conflict Buzz</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: GIT WORKSHOP GUIDE -->
+    <section id="tab-guide" class="tab-panel">
+      <div class="guide-container">
+        <h2 class="arena-title">🚀 Workshop Hands-On Instructions</h2>
+        <p class="step-desc" style="margin-bottom: 2rem;">
+          Follow these 6 steps to make your first open-source Pull Request and see your card appear live on this wall!
+        </p>
+
+        <div class="guide-step">
+          <div class="step-num-badge">1</div>
+          <div class="step-body">
+            <h3 class="step-title">Fork and Clone the Repository</h3>
+            <p class="step-desc">Click <strong>Fork</strong> at the top right of this GitHub repo to create your own copy, then clone it to your local machine:</p>
+            <div class="code-snippet-box">git clone https://github.com/YOUR_USERNAME/DevPulse.git<br>cd DevPulse</div>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-num-badge">2</div>
+          <div class="step-body">
+            <h3 class="step-title">Create a New Feature Branch</h3>
+            <p class="step-desc">Never commit directly to <code>main</code>! Always create a descriptive branch for your changes:</p>
+            <div class="code-snippet-box">git checkout -b feature/add-YOUR_USERNAME</div>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-num-badge">3</div>
+          <div class="step-body">
+            <h3 class="step-title">Create Your Profile JSON File</h3>
+            <p class="step-desc">Copy <code>data/students/_template.json</code> to a new file named <code>data/students/YOUR_USERNAME.json</code> and fill in your details, avatar, and custom RPG stats!</p>
+            <div class="code-snippet-box">cp data/students/_template.json data/students/YOUR_USERNAME.json</div>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-num-badge">4</div>
+          <div class="step-body">
+            <h3 class="step-title">Register Your File (For Local Testing)</h3>
+            <p class="step-desc">Open <code>data/registry.json</code> and add your filename (e.g. <code>"YOUR_USERNAME.json"</code>) to the list. Double check your JSON syntax (commas and quotes)!</p>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-num-badge">5</div>
+          <div class="step-body">
+            <h3 class="step-title">Commit and Push Your Branch</h3>
+            <p class="step-desc">Stage your changes, create an informative commit message, and push your branch to GitHub:</p>
+            <div class="code-snippet-box">git status<br>git add data/students/YOUR_USERNAME.json data/registry.json<br>git commit -m "feat: add profile card for YOUR_USERNAME"<br>git push -u origin feature/add-YOUR_USERNAME</div>
+          </div>
+        </div>
+
+        <div class="guide-step">
+          <div class="step-num-badge">6</div>
+          <div class="step-body">
+            <h3 class="step-title">Open a Pull Request! 🎉</h3>
+            <p class="step-desc">
+              Go to the original GitHub repository. GitHub will show a banner saying <em>"feature/add-YOUR_USERNAME had recent pushes"</em>. Click <strong>Compare & pull request</strong>, write a brief description, and submit! Once the instructor or peer merges it, your card is officially in the Hall of Fame!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Profile Detail Modal Dialog -->
+  <div id="profile-modal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-window">
+      <button id="modal-close-btn" class="modal-close-btn" aria-label="Close modal">✕</button>
+      <div id="modal-body-container">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/audio.js"></script>
+  <script src="js/battle-arena.js"></script>
+  <script src="js/arcade.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
