@@ -132,7 +132,7 @@ class GitArcade {
     this.typerInput.value = '';
     this.typerInput.focus();
     this.typerStartBtn.disabled = true;
-    this.typerStartBtn.textContent = '⚡ In Progress...';
+    this.typerStartBtn.textContent = 'Session Active...';
 
     this.nextTyperCommand();
 
@@ -159,9 +159,9 @@ class GitArcade {
     this.typerRunning = false;
     this.typerInput.disabled = true;
     this.typerStartBtn.disabled = false;
-    this.typerStartBtn.textContent = '🔄 Play Again!';
-    this.typerPrompt.innerHTML = `🎉 Game Over! Final Score: <strong>${this.typerScore} pts</strong>`;
-    this.typerTarget.textContent = 'Click "Play Again" to sharpen your Git muscle memory!';
+    this.typerStartBtn.textContent = 'Restart Session';
+    this.typerPrompt.innerHTML = `Session complete. Final score: <strong>${this.typerScore} pts</strong>`;
+    this.typerTarget.textContent = 'Click "Restart Session" to attempt another practice run.';
     window.soundFX?.playVictoryFanfare();
     if (window.DevPulseApp?.triggerConfetti && this.typerScore > 0) {
       window.DevPulseApp.triggerConfetti();
@@ -182,12 +182,12 @@ class GitArcade {
       // Quiz complete
       this.quizContainer.innerHTML = `
         <div class="quiz-completed">
-          <h3>🎓 Workshop Quiz Completed!</h3>
+          <h3>Assessment Complete</h3>
           <p class="quiz-final-score">Your Score: <strong>${this.quizScore} / ${this.quizQuestions.length}</strong></p>
           <p class="quiz-congrats">
-            ${this.quizScore === this.quizQuestions.length ? "🌟 Perfect score! You're ready to teach Git yourself!" : "Great effort! Review the questions and try again!"}
+            ${this.quizScore === this.quizQuestions.length ? "Excellent result. You demonstrated strong mastery of core Git workflows." : "Good effort. Review the concepts and retake the assessment to reinforce understanding."}
           </p>
-          <button class="btn btn-primary" id="restart-quiz-btn">🔄 Restart Quiz</button>
+          <button class="btn btn-primary" id="restart-quiz-btn">Retake Assessment</button>
         </div>
       `;
       document.getElementById('restart-quiz-btn')?.addEventListener('click', () => {
@@ -234,20 +234,20 @@ class GitArcade {
       optionBtns[selectedIdx].classList.add('correct');
       window.soundFX?.playSuccessSound();
       feedbackBox.className = 'quiz-feedback-box correct';
-      feedbackBox.innerHTML = `✅ <strong>Correct!</strong> ${q.explanation}`;
+      feedbackBox.innerHTML = `<strong>Correct.</strong> ${q.explanation}`;
     } else {
       optionBtns[selectedIdx].classList.add('wrong');
       optionBtns[q.correct].classList.add('correct');
       window.soundFX?.playErrorSound();
       feedbackBox.className = 'quiz-feedback-box wrong';
-      feedbackBox.innerHTML = `❌ <strong>Not quite!</strong> ${q.explanation}`;
+      feedbackBox.innerHTML = `<strong>Incorrect.</strong> ${q.explanation}`;
     }
 
     feedbackBox.style.display = 'block';
 
     const nextBtn = document.createElement('button');
     nextBtn.className = 'btn btn-primary next-q-btn';
-    nextBtn.textContent = this.quizIndex + 1 < this.quizQuestions.length ? 'Next Question ➡️' : 'View Final Results 🏆';
+    nextBtn.textContent = this.quizIndex + 1 < this.quizQuestions.length ? 'Next Question →' : 'View Summary';
     nextBtn.addEventListener('click', () => {
       this.quizIndex++;
       this.renderQuizQuestion();

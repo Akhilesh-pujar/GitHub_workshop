@@ -223,17 +223,19 @@ class DevPulseApp {
     if (this.filteredProfiles.length === 0) {
       grid.innerHTML = `
         <div class="empty-results-box">
-          <div class="empty-icon">🔍</div>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 0.5rem; color: var(--text-muted);">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
           <h3>No matching contributors found</h3>
-          <p>Try clearing your search or selecting "All" skills.</p>
+          <p>Try clearing your search query or selecting a different skill filter.</p>
         </div>
       `;
       return;
     }
 
     grid.innerHTML = this.filteredProfiles.map((p, idx) => `
-      <div class="dev-card" data-username="${p.username}" style="animation-delay: ${idx * 0.05}s">
-        <div class="card-glow-edge"></div>
+      <div class="dev-card" data-username="${p.username}">
         <div class="dev-card-inner">
           <div class="card-header">
             <div class="avatar-ring">
@@ -246,7 +248,7 @@ class DevPulseApp {
             </div>
           </div>
 
-          <p class="dev-bio">${p.bio || 'Building amazing things with code.'}</p>
+          <p class="dev-bio">${p.bio || 'Building open-source software with the community.'}</p>
 
           <div class="dev-skills-list">
             ${(p.skills || []).slice(0, 4).map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
@@ -255,14 +257,14 @@ class DevPulseApp {
 
           <div class="dev-stats-bars">
             <div class="stat-bar-row">
-              <span class="stat-name">⚡ Debug</span>
+              <span class="stat-name">Debug</span>
               <div class="stat-bar-track">
                 <div class="stat-bar-val debug" style="width: ${p.stats?.debugging || 70}%"></div>
               </div>
               <span class="stat-num">${p.stats?.debugging || 70}</span>
             </div>
             <div class="stat-bar-row">
-              <span class="stat-name">☕ Caffeine</span>
+              <span class="stat-name">Caffeine</span>
               <div class="stat-bar-track">
                 <div class="stat-bar-val caffeine" style="width: ${p.stats?.caffeine || 70}%"></div>
               </div>
@@ -271,12 +273,17 @@ class DevPulseApp {
           </div>
 
           <div class="card-footer">
-            <button class="kudos-btn" data-username="${p.username}" title="Give Kudos!">
-              <span class="kudos-icon">💖</span>
+            <button class="kudos-btn" data-username="${p.username}" title="Endorse contributor" aria-label="Endorse contributor">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
               <span class="kudos-count" id="kudos-${p.username}">${p._kudos || 0}</span>
             </button>
             <button class="btn btn-outline view-profile-btn" data-username="${p.username}">
-              View Profile ✨
+              <span>View Profile</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
             </button>
           </div>
         </div>
@@ -320,7 +327,7 @@ class DevPulseApp {
     }
 
     btnElement.classList.add('kudos-burst');
-    setTimeout(() => btnElement.classList.remove('kudos-burst'), 400);
+    setTimeout(() => btnElement.classList.remove('kudos-burst'), 300);
 
     window.soundFX?.playKudosChime();
     this.triggerConfetti(btnElement);
@@ -362,67 +369,79 @@ class DevPulseApp {
           <img src="${p.avatar}" alt="${p.name}" class="modal-avatar" onerror="this.src='https://github.com/${p.username}.png'">
         </div>
         <div class="modal-title-info">
-          <h2 class="modal-name">${p.name}</h2>
+          <h2 class="modal-name" id="modal-contributor-name">${p.name}</h2>
           <div class="modal-badges">
             <span class="badge-role">${p.role || 'Contributor'}</span>
-            ${p.location ? `<span class="badge-loc">📍 ${p.location}</span>` : ''}
+            ${p.location ? `
+              <span class="badge-loc">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>${p.location}</span>
+              </span>` : ''}
           </div>
           <a href="https://github.com/${p.username}" target="_blank" rel="noopener noreferrer" class="github-handle-link">
-            github.com/${p.username} ↗
+            <span>github.com/${p.username}</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
           </a>
         </div>
       </div>
 
       <div class="modal-bio-card">
-        <p>${p.bio || 'Workshop participant and open source enthusiast.'}</p>
+        <p>${p.bio || 'Workshop participant and open-source enthusiast.'}</p>
         ${p.favoriteQuote ? `<blockquote class="modal-quote">"${p.favoriteQuote}"</blockquote>` : ''}
       </div>
 
       <div class="modal-section">
-        <h4 class="modal-section-title">⚡ RPG Developer Stats</h4>
+        <h4 class="modal-section-title">Developer Metrics</h4>
         <div class="modal-stats-grid">
           <div class="stat-box">
-            <span class="stat-lbl">⚡ Debugging</span>
+            <span class="stat-lbl">Debugging</span>
             <div class="stat-val-bar"><div style="width: ${p.stats?.debugging || 70}%"></div></div>
-            <strong>${p.stats?.debugging || 70}/100</strong>
+            <strong>${p.stats?.debugging || 70} / 100</strong>
           </div>
           <div class="stat-box">
-            <span class="stat-lbl">☕ Caffeine Level</span>
+            <span class="stat-lbl">Caffeine Index</span>
             <div class="stat-val-bar"><div style="width: ${p.stats?.caffeine || 70}%"></div></div>
-            <strong>${p.stats?.caffeine || 70}/100</strong>
+            <strong>${p.stats?.caffeine || 70} / 100</strong>
           </div>
           <div class="stat-box">
-            <span class="stat-lbl">🎯 AI Prompt Crafting</span>
+            <span class="stat-lbl">AI Prompt Crafting</span>
             <div class="stat-val-bar"><div style="width: ${p.stats?.promptCrafting || 70}%"></div></div>
-            <strong>${p.stats?.promptCrafting || 70}/100</strong>
+            <strong>${p.stats?.promptCrafting || 70} / 100</strong>
           </div>
           <div class="stat-box">
-            <span class="stat-lbl">🌙 Late-Night Coding</span>
+            <span class="stat-lbl">Late-Night Coding</span>
             <div class="stat-val-bar"><div style="width: ${p.stats?.lateNightCoding || 70}%"></div></div>
-            <strong>${p.stats?.lateNightCoding || 70}/100</strong>
+            <strong>${p.stats?.lateNightCoding || 70} / 100</strong>
           </div>
         </div>
       </div>
 
       ${p.signatureMove ? `
         <div class="modal-signature-move">
-          <span class="move-label">⚔️ Signature Move</span>
+          <span class="move-label">Specialty & Highlight</span>
           <h4 class="move-title">${p.signatureMove.name}</h4>
           <p class="move-text">${p.signatureMove.description}</p>
         </div>
       ` : ''}
 
       <div class="modal-section">
-        <h4 class="modal-section-title">🛠️ Tech Stack & Skills</h4>
+        <h4 class="modal-section-title">Tech Stack & Skills</h4>
         <div class="modal-skills-wrap">
           ${(p.skills || []).map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
         </div>
       </div>
 
       <div class="modal-socials-row">
-        ${p.socials?.github ? `<a href="${p.socials.github}" target="_blank" class="social-btn">GitHub</a>` : ''}
-        ${p.socials?.linkedin ? `<a href="${p.socials.linkedin}" target="_blank" class="social-btn">LinkedIn</a>` : ''}
-        ${p.socials?.portfolio ? `<a href="${p.socials.portfolio}" target="_blank" class="social-btn">Portfolio</a>` : ''}
+        ${p.socials?.github ? `<a href="${p.socials.github}" target="_blank" rel="noopener noreferrer" class="social-btn">GitHub</a>` : ''}
+        ${p.socials?.linkedin ? `<a href="${p.socials.linkedin}" target="_blank" rel="noopener noreferrer" class="social-btn">LinkedIn</a>` : ''}
+        ${p.socials?.portfolio ? `<a href="${p.socials.portfolio}" target="_blank" rel="noopener noreferrer" class="social-btn">Portfolio</a>` : ''}
       </div>
     `;
 
@@ -468,7 +487,10 @@ class DevPulseApp {
 
     audioBtn.addEventListener('click', () => {
       const isMuted = window.soundFX?.toggleMute();
-      audioBtn.innerHTML = isMuted ? '🔇 Sound: Off' : '🔊 Sound: On';
+      const label = audioBtn.querySelector('.audio-label');
+      if (label) {
+        label.textContent = isMuted ? 'Audio: Muted' : 'Audio: On';
+      }
       audioBtn.classList.toggle('muted', isMuted);
       if (!isMuted) window.soundFX?.playClickSound();
     });
@@ -501,11 +523,11 @@ class DevPulseApp {
       originY = rect.top + rect.height / 2;
     }
 
-    const colors = ['#6366f1', '#a855f7', '#ec4899', '#3b82f6', '#10b981', '#f59e0b', '#00f0ff'];
+    const colors = ['#3b82f6', '#10b981', '#64748b', '#94a3b8', '#38bdf8'];
 
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 35; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const velocity = 3 + Math.random() * 6;
+      const velocity = 2 + Math.random() * 4;
       this.confettiParticles.push({
         x: originX,
         y: originY,

@@ -29,7 +29,7 @@ Welcome to the **GitHub Awareness Workshop**! This guide will take you step-by-s
 Open your terminal (PowerShell, Command Prompt, Git Bash, or Terminal) and run:
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/DevPulse.git
+git clone https://github.com/Akhilesh-pujar/GitHub_workshop
 cd DevPulse
 ```
 *(Replace `YOUR_GITHUB_USERNAME` with your actual GitHub username)*

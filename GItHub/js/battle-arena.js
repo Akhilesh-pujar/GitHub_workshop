@@ -98,13 +98,13 @@ class BattleArena {
           </div>
         </div>
         <div class="fighter-stats-mini">
-          <div class="stat-pill"><span class="stat-ico">⚡</span> Debug: <strong>${profile.stats?.debugging || 70}</strong></div>
-          <div class="stat-pill"><span class="stat-ico">☕</span> Caffeine: <strong>${profile.stats?.caffeine || 70}</strong></div>
-          <div class="stat-pill"><span class="stat-ico">🎯</span> AI: <strong>${profile.stats?.promptCrafting || 70}</strong></div>
-          <div class="stat-pill"><span class="stat-ico">🌙</span> Night: <strong>${profile.stats?.lateNightCoding || 70}</strong></div>
+          <div class="stat-pill">Debug: <strong>${profile.stats?.debugging || 70}</strong></div>
+          <div class="stat-pill">Caffeine: <strong>${profile.stats?.caffeine || 70}</strong></div>
+          <div class="stat-pill">AI Crafting: <strong>${profile.stats?.promptCrafting || 70}</strong></div>
+          <div class="stat-pill">Late Night: <strong>${profile.stats?.lateNightCoding || 70}</strong></div>
         </div>
         <div class="signature-move-badge">
-          <strong>Special:</strong> ${profile.signatureMove?.name || 'Git Push --force'}
+          <strong>Specialty:</strong> ${profile.signatureMove?.name || 'Interactive Rebase'}
         </div>
       </div>
     `;
@@ -118,9 +118,9 @@ class BattleArena {
     this.updateHpDisplay();
     this.startBtn.disabled = !(this.fighter1 && this.fighter2 && this.fighter1 !== this.fighter2);
     this.startBtn.classList.remove('active-fighting');
-    this.startBtn.textContent = '⚔️ Start Git Duel!';
+    this.startBtn.textContent = 'Run Comparison Duel';
     if (this.logContainer) {
-      this.logContainer.innerHTML = '<div class="log-entry system">Ready for battle. Select two developers and click Start!</div>';
+      this.logContainer.innerHTML = '<div class="log-entry system">Ready. Select two contributors to begin simulation.</div>';
     }
     const c1 = document.getElementById('fighter-card-1');
     const c2 = document.getElementById('fighter-card-2');
@@ -152,15 +152,15 @@ class BattleArena {
   async startBattle() {
     if (this.isRunning || !this.fighter1 || !this.fighter2) return;
     if (this.fighter1.username === this.fighter2.username) {
-      alert("Please select two different developers for the battle!");
+      alert("Please select two different contributors for the comparison.");
       return;
     }
 
     this.isRunning = true;
     this.startBtn.disabled = true;
-    this.startBtn.textContent = '🔥 Battling...';
+    this.startBtn.textContent = 'Simulating...';
     this.logContainer.innerHTML = '';
-    this.addLog(`⚡ Match begins: <strong>${this.fighter1.name}</strong> VS <strong>${this.fighter2.name}</strong>!`, 'system');
+    this.addLog(`Simulation started: <strong>${this.fighter1.name}</strong> vs <strong>${this.fighter2.name}</strong>`, 'system');
 
     window.soundFX?.playAttackSound();
 
@@ -213,21 +213,21 @@ class BattleArena {
 
     let moveDesc = '';
     if (isSpecial && attacker.signatureMove) {
-      moveDesc = `unleashes signature move <strong class="move-name">"${attacker.signatureMove.name}"</strong>!`;
+      moveDesc = `executes specialty move <strong class="move-name">"${attacker.signatureMove.name}"</strong>`;
     } else {
       const genericMoves = [
         "dispatches a sleek pull request review",
-        "executes a flawless interactive rebase",
-        "solves a cryptic compiler warning",
-        "injects an espresso shot into the terminal",
-        "fires a clean regex pattern"
+        "executes an interactive rebase",
+        "resolves a merge conflict cleanly",
+        "optimizes a database query",
+        "writes comprehensive unit tests"
       ];
       moveDesc = genericMoves[Math.floor(Math.random() * genericMoves.length)];
     }
 
-    const critBadge = isCrit ? `<span class="crit-tag">💥 CRITICAL HIT!</span> ` : '';
+    const critBadge = isCrit ? `<span class="crit-tag">[High Impact]</span> ` : '';
     this.addLog(
-      `<strong>${attacker.name}</strong> ${moveDesc}! ${critBadge}Dealt <strong>${damage}</strong> damage to ${defender.name}.`,
+      `<strong>${attacker.name}</strong> ${moveDesc}. ${critBadge}Score delta: <strong>${damage}</strong> on ${defender.name}.`,
       attackerNum === 1 ? 'player1' : 'player2'
     );
   }
@@ -235,7 +235,7 @@ class BattleArena {
   endBattle() {
     this.isRunning = false;
     this.startBtn.disabled = false;
-    this.startBtn.textContent = '⚔️ Rematch!';
+    this.startBtn.textContent = 'Run Another Comparison';
 
     const winnerNum = this.hp1 > 0 ? 1 : 2;
     const winner = winnerNum === 1 ? this.fighter1 : this.fighter2;
@@ -247,7 +247,7 @@ class BattleArena {
     if (winnerCard) winnerCard.classList.add('winner');
     if (loserCard) loserCard.classList.add('loser');
 
-    this.addLog(`🏆 <strong>${winner.name}</strong> wins the Git Duel with ${Math.ceil(winnerNum === 1 ? this.hp1 : this.hp2)} HP remaining!`, 'winner');
+    this.addLog(`<strong>${winner.name}</strong> concluded the simulation ahead with ${Math.ceil(winnerNum === 1 ? this.hp1 : this.hp2)} capability points remaining.`, 'winner');
 
     window.soundFX?.playVictoryFanfare();
     if (window.DevPulseApp?.triggerConfetti) {
