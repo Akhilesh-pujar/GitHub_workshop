@@ -3,7 +3,7 @@
 [![GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-blue?logo=github)](https://pages.github.com/)
 [![Built for Education](https://img.shields.io/badge/Built%20For-Git%20Awareness%20Workshop-6366f1)](#)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20Vanilla)-success)](#)
-
+Helllo Guys,
 **DevPulse** is a gamified, hands-on web application designed for interactive student **GitHub Awareness Workshops**. It enables dozens of students to experience the end-to-end Git workflow (forking, cloning, branching, committing, pushing, PR review, and merging) with **zero initial merge conflicts** and **instant visual gratification**.
 
 ---
