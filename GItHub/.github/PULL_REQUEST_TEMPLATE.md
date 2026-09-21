@@ -1,4 +1,4 @@
-## 🚀 Workshop Pull Request Submission
+##  Workshop Pull Request Submission
 
 ### 👤 Contributor Information
 - **GitHub Username**: @
