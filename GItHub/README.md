@@ -8,7 +8,7 @@ Helllo Guys,
 
 ---
 
-## 🌟 Application Features
+## 🌟  Features
 
 1. **🧑‍💻 Developer Profiles & RPG Cards Grid**:
    - Every student creates a unique JSON profile card showing their avatar, bio, tech skills, and custom RPG stats (*Debugging*, *Caffeine*, *Prompt Crafting*, *Late-Night Coding*).
