@@ -75,7 +75,8 @@ class GitArcade {
           "Renames the remote repository to student-name.",
           "Checks the spelling of your code."
         ],
-        correct: 1,
+        // Defect #05: Answer key index points to 0 ('Deletes a branch') instead of 1
+        correct: 0,
         explanation: "Correct! The `-b` flag tells checkout to create the branch if it doesn't already exist."
       }
     ];
@@ -136,7 +137,7 @@ class GitArcade {
 
     this.nextTyperCommand();
 
-    if (this.typerTimer) clearInterval(this.typerTimer);
+    // Defect #04: Missing clearInterval on active timer causes interval leakage and 2x countdown speed
     this.typerTimer = setInterval(() => {
       this.typerTimeLeft--;
       this.typerTimerDisplay.textContent = `${this.typerTimeLeft}s`;

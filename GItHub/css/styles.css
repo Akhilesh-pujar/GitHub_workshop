@@ -1761,3 +1761,267 @@ body::before {
     justify-content: center;
   }
 }
+
+/* ==========================================================================
+   Workshop QA Defect Backlog & In-Page Issue Flags
+   ========================================================================== */
+.qa-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.12rem 0.42rem;
+  font-size: 0.7rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  vertical-align: middle;
+  margin-left: 0.35rem;
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.qa-badge:hover {
+  background: rgba(245, 158, 11, 0.24);
+  border-color: #f59e0b;
+  color: #fbbf24;
+  transform: translateY(-1px);
+}
+
+.qa-backlog-launcher-wrapper {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 990;
+}
+
+.qa-launcher-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.05rem;
+  background: #0b1120;
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  border-radius: var(--radius-full);
+  color: #f8fafc;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  transition: all 0.25s ease;
+}
+
+.qa-launcher-btn:hover {
+  background: #1e293b;
+  border-color: #f59e0b;
+  box-shadow: 0 6px 24px rgba(245, 158, 11, 0.3);
+  transform: translateY(-2px);
+}
+
+.qa-launcher-icon {
+  color: #f59e0b;
+  display: flex;
+  align-items: center;
+}
+
+.qa-launcher-pill {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+}
+
+.qa-modal-window {
+  max-width: 840px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.qa-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 0.85rem;
+}
+
+.qa-header-title-group {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.qa-icon-wrap {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.qa-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.qa-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.qa-workflow-banner {
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.22);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.qa-workflow-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #60a5fa;
+  margin-bottom: 0.35rem;
+}
+
+.qa-workflow-steps {
+  padding-left: 1.2rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.qa-workflow-steps li {
+  margin-bottom: 0.2rem;
+}
+
+.qa-issues-list {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding-right: 0.35rem;
+}
+
+.qa-issue-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.8rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.qa-issue-card:hover {
+  border-color: rgba(245, 158, 11, 0.35);
+  background: var(--bg-card-hover);
+}
+
+.qa-issue-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.qa-issue-tags {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.qa-tag-num {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 0.12rem 0.4rem;
+  border-radius: var(--radius-xs);
+}
+
+.qa-tag-component {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  padding: 0.12rem 0.4rem;
+  border-radius: var(--radius-xs);
+}
+
+.qa-tag-severity {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.12rem 0.4rem;
+  border-radius: var(--radius-xs);
+}
+
+.qa-tag-severity.high {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+.qa-tag-severity.medium {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+
+.qa-tag-severity.low {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+}
+
+.qa-issue-file {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.qa-issue-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.qa-issue-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin-bottom: 0.4rem;
+}
+
+.qa-issue-action-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.qa-action-link {
+  font-size: 0.76rem;
+  color: #60a5fa;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 500;
+}
+
+.qa-action-link:hover {
+  text-decoration: underline;
+}

@@ -116,7 +116,8 @@ class BattleArena {
     this.isRunning = false;
     this.turn = 1;
     this.updateHpDisplay();
-    this.startBtn.disabled = !(this.fighter1 && this.fighter2 && this.fighter1 !== this.fighter2);
+    // Defect #10: Contender validation allows selecting identical fighters
+    this.startBtn.disabled = !(this.fighter1 && this.fighter2);
     this.startBtn.classList.remove('active-fighting');
     this.startBtn.textContent = 'Run Comparison Duel';
     if (this.logContainer) {
@@ -151,10 +152,6 @@ class BattleArena {
 
   async startBattle() {
     if (this.isRunning || !this.fighter1 || !this.fighter2) return;
-    if (this.fighter1.username === this.fighter2.username) {
-      alert("Please select two different contributors for the comparison.");
-      return;
-    }
 
     this.isRunning = true;
     this.startBtn.disabled = true;
@@ -197,7 +194,8 @@ class BattleArena {
     if (defenderNum === 1) {
       this.hp1 = Math.max(0, this.hp1 - damage);
     } else {
-      this.hp2 = Math.max(0, this.hp2 - damage);
+      // Defect #06: Missing Math.max(0, ...) allows Contender 2 health to fall into negative numbers
+      this.hp2 = this.hp2 - damage;
     }
 
     this.updateHpDisplay();

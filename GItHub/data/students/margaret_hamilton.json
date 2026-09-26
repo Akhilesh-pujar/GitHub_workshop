@@ -1,0 +1,25 @@
+{
+  "username": "margaret-hamilton",
+  "name": "Margaret Hamilton",
+  "role": "Director of Software Engineering (Apollo 11)",
+  "avatar": "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=300&q=80",
+  "bio": "Pioneered the term 'software engineering' and authored Apollo on-board flight software that successfully landed humans on the Moon.",
+  "location": "Cambridge, Massachusetts",
+  "skills": ["Software Engineering", "Systems Architecture", "Asynchronous Systems", "Apollo Guidance"],
+  "stats": {
+    "debugging": 100,
+    "caffeine": 88,
+    "promptCrafting": 90,
+    "lateNightCoding": 98
+  },
+  "signatureMove": {
+    "name": "Priority Scheduling Overload",
+    "description": "Drops non-essential radar telemetry tasks to guarantee 100% compute for lunar descent."
+  },
+  "socials": {
+    "github": "https://github.com",
+    "linkedin": "https://linkedin.com",
+    "portfolio": "https://en.wikipedia.org/wiki/Margaret_Hamilton_(software_engineer)"
+  },
+  "favoriteQuote": "There was no choice but to be pioneers; no time to be beginners."
+}

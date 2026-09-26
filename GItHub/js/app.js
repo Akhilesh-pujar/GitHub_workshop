@@ -15,6 +15,7 @@ class DevPulseApp {
     this.setupAudioToggle();
     this.setupSearchAndFilter();
     this.setupModal();
+    this.setupQABacklog();
 
     await this.loadProfiles();
 
@@ -119,7 +120,8 @@ class DevPulseApp {
       totalKudos += (p._kudos || 0);
     });
 
-    if (skillsCountEl) skillsCountEl.textContent = allSkills.size;
+    // Defect #02: uniqueSkillsCount property is undefined on this class
+    if (skillsCountEl) skillsCountEl.textContent = this.uniqueSkillsCount;
     if (totalKudosEl) totalKudosEl.textContent = totalKudos;
   }
 
@@ -204,7 +206,8 @@ class DevPulseApp {
     if (this.sortBy === 'name') {
       list.sort((a, b) => a.name.localeCompare(b.name));
     } else if (this.sortBy === 'kudos') {
-      list.sort((a, b) => (b._kudos || 0) - (a._kudos || 0));
+      // Defect #01: Kudos sorting logic inverted (ascending order instead of descending)
+      list.sort((a, b) => (a._kudos || 0) - (b._kudos || 0));
     } else if (this.sortBy === 'debugging') {
       list.sort((a, b) => (b.stats?.debugging || 0) - (a.stats?.debugging || 0));
     } else if (this.sortBy === 'caffeine') {
@@ -357,6 +360,64 @@ class DevPulseApp {
     });
   }
 
+  setupQABacklog() {
+    const launcherBtn = document.getElementById('qa-backlog-toggle-btn');
+    const qaModal = document.getElementById('qa-backlog-modal');
+    const qaCloseBtn = document.getElementById('qa-modal-close-btn');
+
+    const openQAModal = (targetIssue = null) => {
+      if (!qaModal) return;
+      qaModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      window.soundFX?.playClickSound();
+
+      if (targetIssue) {
+        setTimeout(() => {
+          const card = qaModal.querySelector(`[data-issue-target="${targetIssue}"]`);
+          if (card) {
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            card.classList.add('pulse');
+            setTimeout(() => card.classList.remove('pulse'), 1200);
+          }
+        }, 150);
+      }
+    };
+
+    const closeQAModal = () => {
+      if (!qaModal) return;
+      qaModal.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    if (launcherBtn) {
+      launcherBtn.addEventListener('click', () => openQAModal());
+    }
+
+    if (qaCloseBtn) {
+      qaCloseBtn.addEventListener('click', () => closeQAModal());
+    }
+
+    if (qaModal) {
+      qaModal.addEventListener('click', (e) => {
+        if (e.target === qaModal) closeQAModal();
+      });
+    }
+
+    document.querySelectorAll('.qa-badge').forEach(badge => {
+      badge.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const issueNum = badge.dataset.issue;
+        openQAModal(issueNum);
+      });
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && qaModal?.classList.contains('active')) {
+        closeQAModal();
+      }
+    });
+  }
+
   openProfileModal(username) {
     const p = this.profiles.find(item => item.username === username);
     if (!p || !this.modal || !this.modalContent) return;
@@ -411,8 +472,9 @@ class DevPulseApp {
             <strong>${p.stats?.caffeine || 70} / 100</strong>
           </div>
           <div class="stat-box">
-            <span class="stat-lbl">AI Prompt Crafting</span>
-            <div class="stat-val-bar"><div style="width: ${p.stats?.promptCrafting || 70}%"></div></div>
+            <span class="stat-lbl">AI Prompt Crafting <span class="qa-badge" data-issue="3" title="Defect #03: Prompt Crafting progress bar width binds to debugging stat">Issue #03</span></span>
+            <!-- Defect #03: Bar width references p.stats?.debugging instead of p.stats?.promptCrafting -->
+            <div class="stat-val-bar"><div style="width: ${p.stats?.debugging || 70}%"></div></div>
             <strong>${p.stats?.promptCrafting || 70} / 100</strong>
           </div>
           <div class="stat-box">
@@ -489,7 +551,8 @@ class DevPulseApp {
       const isMuted = window.soundFX?.toggleMute();
       const label = audioBtn.querySelector('.audio-label');
       if (label) {
-        label.textContent = isMuted ? 'Audio: Muted' : 'Audio: On';
+        // Defect #08: Label text condition inverted (shows 'Audio: On' when muted)
+        label.textContent = isMuted ? 'Audio: On' : 'Audio: Muted';
       }
       audioBtn.classList.toggle('muted', isMuted);
       if (!isMuted) window.soundFX?.playClickSound();

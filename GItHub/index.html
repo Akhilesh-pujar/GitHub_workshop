@@ -41,6 +41,7 @@
           </svg>
           <span class="audio-label">Audio: On</span>
         </button>
+        <span class="qa-badge" data-issue="8" title="Defect #08: Status text inverted on mute toggle">Issue #08</span>
         <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline"
           id="github-repo-btn">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
@@ -55,6 +56,7 @@
             <line x1="10" y1="14" x2="21" y2="3"></line>
           </svg>
         </a>
+        <span class="qa-badge" data-issue="9" title="Defect #09: Header repository button navigates to generic github.com">Issue #09</span>
       </div>
     </div>
   </header>
@@ -140,7 +142,7 @@
           </div>
           <div>
             <div class="stat-number" id="stat-unique-skills">0</div>
-            <div class="stat-label">Unique Skills Tagged</div>
+            <div class="stat-label">Unique Skills Tagged <span class="qa-badge" data-issue="2" title="Defect #02: Stat counter displays undefined / NaN">Issue #02</span></div>
           </div>
         </div>
         <div class="stat-item">
@@ -171,13 +173,16 @@
             <input type="text" id="search-input" class="search-input"
               placeholder="Search by name, username, skill, or location...">
           </div>
-          <select id="sort-select" class="sort-select">
-            <option value="default">Sort: Default</option>
-            <option value="name">Sort: Name (A–Z)</option>
-            <option value="kudos">Sort: Peer Endorsements</option>
-            <option value="debugging">Sort: Debugging Score</option>
-            <option value="caffeine">Sort: Caffeine Index</option>
-          </select>
+          <div class="sort-select-wrapper" style="display: flex; align-items: center; gap: 0.4rem;">
+            <select id="sort-select" class="sort-select">
+              <option value="default">Sort: Default</option>
+              <option value="name">Sort: Name (A–Z)</option>
+              <option value="kudos">Sort: Peer Endorsements</option>
+              <option value="debugging">Sort: Debugging Score</option>
+              <option value="caffeine">Sort: Caffeine Index</option>
+            </select>
+            <span class="qa-badge" data-issue="1" title="Defect #01: Kudos sort order appears reversed">Issue #01</span>
+          </div>
         </div>
 
         <div class="skills-pills-row" id="skills-filter-container">
@@ -210,7 +215,7 @@
           <div class="arena-vs-badge" aria-hidden="true">VS</div>
 
           <div class="fighter-slot">
-            <label for="arena-fighter-2" class="field-label">Contender 2</label>
+            <label for="arena-fighter-2" class="field-label">Contender 2 <span class="qa-badge" data-issue="6" title="Defect #06: Contender 2 HP gauge lacks bottom clamping below 0">Issue #06</span></label>
             <select id="arena-fighter-2" class="fighter-select"></select>
             <div id="fighter-2-card"></div>
           </div>
@@ -219,6 +224,7 @@
         <div class="arena-controls">
           <button id="start-battle-btn" class="btn btn-primary btn-battle">Run Comparison Duel</button>
           <button id="reset-battle-btn" class="btn btn-outline">Reset</button>
+          <span class="qa-badge" data-issue="10" title="Defect #10: Contender validation allows selecting identical fighters">Issue #10</span>
         </div>
 
         <div class="battle-log-container" id="battle-log-messages">
@@ -234,7 +240,7 @@
         <div class="arcade-card">
           <div class="arcade-card-header">
             <span class="arcade-tag">Terminal Exercise</span>
-            <h3 class="arcade-title">Command Speed Typer</h3>
+            <h3 class="arcade-title">Command Speed Typer <span class="qa-badge" data-issue="4" title="Defect #04: Restarting typer causes timer interval leakage and 2x countdown speed">Issue #04</span></h3>
             <p class="step-desc">Test your command-line recall. Enter the appropriate Git command before the clock runs
               out.</p>
           </div>
@@ -259,7 +265,7 @@
         <div class="arcade-card">
           <div class="arcade-card-header">
             <span class="arcade-tag">Knowledge Check</span>
-            <h3 class="arcade-title">Version Control Assessment</h3>
+            <h3 class="arcade-title">Version Control Assessment <span class="qa-badge" data-issue="5" title="Defect #05: Assessment Q5 answer key maps to incorrect option index">Issue #05</span></h3>
             <p class="step-desc">Verify your understanding of branching models, commit semantics, and merge conflict
               resolution.</p>
           </div>
@@ -299,7 +305,7 @@
           <div class="guide-step">
             <div class="step-num-badge">1</div>
             <div class="step-body">
-              <h3 class="step-title">Fork and Clone</h3>
+              <h3 class="step-title">Fork and Clone <span class="qa-badge" data-issue="7" title="Defect #07: Clone directory navigation mismatch (cd DevPulse fails)">Issue #07</span></h3>
               <p class="step-desc">Fork the repository to your personal GitHub account, then clone it to your local
                 environment:</p>
               <div class="code-snippet-box">git clone https://github.com/Akhilesh-pujar/GitHub_workshop<br>cd DevPulse
@@ -376,6 +382,220 @@
       </button>
       <div id="modal-body-container">
         <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Workshop QA Sprint Backlog Launcher (Floating) -->
+  <aside class="qa-backlog-launcher-wrapper" aria-label="Workshop QA Tracking">
+    <button id="qa-backlog-toggle-btn" class="qa-launcher-btn" title="View Workshop QA Defect Backlog (10 Issues)">
+      <div class="qa-launcher-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+      <span class="qa-launcher-text">QA Sprint Backlog</span>
+      <span class="qa-launcher-pill">10 Issues</span>
+    </button>
+  </aside>
+
+  <!-- Workshop QA Sprint Backlog Modal Dialog -->
+  <div id="qa-backlog-modal" class="modal-overlay qa-modal" role="dialog" aria-modal="true" aria-labelledby="qa-modal-title">
+    <div class="modal-window qa-modal-window">
+      <div class="qa-modal-header">
+        <div class="qa-header-title-group">
+          <div class="qa-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+            </svg>
+          </div>
+          <div>
+            <h2 id="qa-modal-title" class="qa-title">Workshop Engineering QA Backlog</h2>
+            <p class="qa-subtitle">Sprint 1 Pre-Release Defect Register • MTech Hands-on Track</p>
+          </div>
+        </div>
+        <button id="qa-modal-close-btn" class="modal-close-btn" aria-label="Close defect register">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="qa-workflow-banner">
+        <div class="qa-workflow-title">Student Workflow Instructions</div>
+        <ol class="qa-workflow-steps">
+          <li><strong>Select an Issue:</strong> Pick an unassigned defect below (Issue #01 to #10).</li>
+          <li><strong>Raise on GitHub:</strong> File a formal GitHub Issue (e.g. <code>[Bug]: Issue #01 - Kudos sort order inverted</code>) and assign it to a team member.</li>
+          <li><strong>Branch & Fix:</strong> Run <code>git checkout -b fix/issue-XX-description</code>, investigate the source code, and implement the resolution.</li>
+          <li><strong>Verify & Push:</strong> Test locally in your browser, commit with conventional commit format, and push your branch upstream.</li>
+          <li><strong>Open Pull Request:</strong> Open a PR referencing <code>Fixes #&lt;issue-num&gt;</code> to trigger the automated CI pipeline!</li>
+        </ol>
+      </div>
+
+      <div class="qa-issues-list" id="qa-issues-container">
+        <!-- Issue #01 -->
+        <div class="qa-issue-card" data-issue-target="1">
+          <div class="qa-issue-top">
+            <div class="qa-issue-tags">
+              <span class="qa-tag-num">Issue #01</span>
+              <span class="qa-tag-component">Search & Filter</span>
+              <span class="qa-tag-severity medium">Medium</span>
+            </div>
+            <span class="qa-issue-file">GItHub/js/app.js</span>
+          </div>
+          <h3 class="qa-issue-title">Inverted sort order for "Peer Endorsements"</h3>
+          <p class="qa-issue-desc">
+            Selecting "Sort: Peer Endorsements" sorts the contributors ascending rather than descending, causing contributors with the fewest endorsements to appear first.
+          </p>
+        </div>
+
+        <!-- Issue #02 -->
+        <div class="qa-issue-card" data-issue-target="2">
+          <div class="qa-issue-top">
+            <div class="qa-issue-tags">
+              <span class="qa-tag-num">Issue #02</span>
+              <span class="qa-tag-component">Metrics Engine</span>
+              <span class="qa-tag-severity high">High</span>
+            </div>
+            <span class="qa-issue-file">GItHub/js/app.js</span>
+          </div>
+          <h3 class="qa-issue-title">"Unique Skills Tagged" counter displays undefined / NaN</h3>
+          <p class="qa-issue-desc">
+            The unique skills counter element on the workshop metrics banner displays <code>undefined</code> due to an uninitialized property reference in <code>updateStatsCounters()</code>.
+          </p>
+        </div>
+
+        <!-- Issue #03 -->
+        <div class="qa-issue-card" data-issue-target="3">
+          <div class="qa-issue-top">
+            <div class="qa-issue-tags">
+              <span class="qa-tag-num">Issue #03</span>
+              <span class="qa-tag-component">Profile Modal</span>
+              <span class="qa-tag-severity low">Low</span>
+            </div>
+            <span class="qa-issue-file">GItHub/js/app.js</span>
+          </div>
+          <h3 class="qa-issue-title">Modal "AI Prompt Crafting" bar width binds to debugging stat</h3>
+          <p class="qa-issue-desc">
+            In the developer detail modal, the progress bar width style attribute for "AI Prompt Crafting" references <code>p.stats?.debugging</code> instead of <code>p.stats?.promptCrafting</code>.
+          </p>
+        </div>
+
+        <!-- Issue #04 -->
+        <div class="qa-issue-card" data-issue-target="4">
+          <div class="qa-issue-top">
+            <div class="qa-issue-tags">
+              <span class="qa-tag-num">Issue #04</span>
+              <span class="qa-tag-component">Terminal Arcade</span>
+              <span class="qa-tag-severity high">High</span>
+            </div>
+            <span class="qa-issue-file">GItHub/js/arcade.js</span>
+          </div>
+          <h3 class="qa-issue-title">Speed Typer timer accelerates upon restarting session</h3>
+          <p class="qa-issue-desc">
+            Restarting or re-initiating the 30-second speed typer without clearing the previous timer interval causes interval leakage, resulting in double-speed countdowns.
+          </p>
+        </div>
+
+        <!-- Issue #05 -->
+        <div class="qa-issue-card" data-issue-target="5">
+          <div class="qa-issue-top">
+            <div class="qa-issue-tags">
+              <span class="qa-tag-num">Issue #05</span>
+              <span class="qa-tag-component">Git Quizzer</span>
+              <span class="qa-tag-severity medium">Medium</span>
+            </div>
+            <span class="qa-issue-file">GItHub/js/arcade.js</span>
+          </div>
+          <h3 class="qa-issue-title">Assessment Question 5 answer key maps to incorrect option index</h3>
+          <p class="qa-issue-desc">
+            In the Git knowledge assessment, Question 5 regarding <code>git checkout -b</code> has its answer key set to index <code>0</code> ("Deletes a branch") instead of index <code>1</code> ("Creates a new branch..."), penalizing correct submissions.
+          </p>
+        </div>
+
+        <!-- Issue #06 -->
+        <div class="qa-issue-card" data-issue-target="6">
+          <div class="qa-issue-top">
+            <div class="qa-issue-tags">
+              <span class="qa-tag-num">Issue #06</span>
+              <span class="qa-tag-component">Battle Arena</span>
+              <span class="qa-tag-severity medium">Medium</span>
+            </div>
+            <span class="qa-issue-file">GItHub/js/battle-arena.js</span>
+          </div>
+          <h3 class="qa-issue-title">Contender 2 HP gauge lacks bottom clamping below 0</h3>
+          <p class="qa-issue-desc">
+            In <code>executeTurn()</code>, damage subtraction for Contender 2 omits <code>Math.max(0, ...)</code>, causing health points to display negative numbers on defeat.
+          </p>
+        </div>
+
+        <!-- Issue #07 -->
+        <div class="qa-issue-card" data-issue-target="7">
+          <div class="qa-issue-top">
+            <div class="qa-issue-tags">
+              <span class="qa-tag-num">Issue #07</span>
+              <span class="qa-tag-component">Contribution Guide</span>
+              <span class="qa-tag-severity high">High</span>
+            </div>
+            <span class="qa-issue-file">GItHub/index.html</span>
+          </div>
+          <h3 class="qa-issue-title">Guide Step 1 directory navigation command mismatch</h3>
+          <p class="qa-issue-desc">
+            Step 1 snippet instructs students to run <code>cd DevPulse</code> after cloning, but the repository clone path defaults to <code>GitHub_workshop</code>, breaking terminal execution.
+          </p>
+        </div>
+
+        <!-- Issue #08 -->
+        <div class="qa-issue-card" data-issue-target="8">
+          <div class="qa-issue-top">
+            <div class="qa-issue-tags">
+              <span class="qa-tag-num">Issue #08</span>
+              <span class="qa-tag-component">Audio Console</span>
+              <span class="qa-tag-severity low">Low</span>
+            </div>
+            <span class="qa-issue-file">GItHub/js/app.js</span>
+          </div>
+          <h3 class="qa-issue-title">Audio toggle button label text condition is inverted</h3>
+          <p class="qa-issue-desc">
+            Toggling mute state displays "Audio: On" when the audio synthesizer is actually muted, and displays "Audio: Muted" when audio is active.
+          </p>
+        </div>
+
+        <!-- Issue #09 -->
+        <div class="qa-issue-card" data-issue-target="9">
+          <div class="qa-issue-top">
+            <div class="qa-issue-tags">
+              <span class="qa-tag-num">Issue #09</span>
+              <span class="qa-tag-component">Navigation Bar</span>
+              <span class="qa-tag-severity medium">Medium</span>
+            </div>
+            <span class="qa-issue-file">GItHub/index.html</span>
+          </div>
+          <h3 class="qa-issue-title">Header "Repository" button points to root github.com</h3>
+          <p class="qa-issue-desc">
+            The primary header repository navigation button links to <code>https://github.com</code> instead of the canonical workshop repository destination.
+          </p>
+        </div>
+
+        <!-- Issue #10 -->
+        <div class="qa-issue-card" data-issue-target="10">
+          <div class="qa-issue-top">
+            <div class="qa-issue-tags">
+              <span class="qa-tag-num">Issue #10</span>
+              <span class="qa-tag-component">Battle Arena</span>
+              <span class="qa-tag-severity medium">Medium</span>
+            </div>
+            <span class="qa-issue-file">GItHub/js/battle-arena.js</span>
+          </div>
+          <h3 class="qa-issue-title">Duel simulator permits matching identical contenders for self-battle</h3>
+          <p class="qa-issue-desc">
+            Contender validation logic enables the comparison simulation even when Contender 1 and Contender 2 select the same profile, allowing self-combat anomalies.
+          </p>
+        </div>
       </div>
     </div>
   </div>
