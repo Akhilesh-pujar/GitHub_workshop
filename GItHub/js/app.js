@@ -207,7 +207,7 @@ class DevPulseApp {
       list.sort((a, b) => a.name.localeCompare(b.name));
     } else if (this.sortBy === 'kudos') {
       // Defect #01: Kudos sorting logic inverted (ascending order instead of descending)
-      list.sort((a, b) => (a._kudos || 0) - (b._kudos || 0));
+      list.sort((a, b) => -(a._kudos || 0) - (b._kudos || 0));
     } else if (this.sortBy === 'debugging') {
       list.sort((a, b) => (b.stats?.debugging || 0) - (a.stats?.debugging || 0));
     } else if (this.sortBy === 'caffeine') {
