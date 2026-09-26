@@ -121,7 +121,7 @@ class DevPulseApp {
     });
 
     // Defect #02: uniqueSkillsCount property is undefined on this class
-    if (skillsCountEl) skillsCountEl.textContent = this.uniqueSkillsCount;
+    if (skillsCountEl) skillsCountEl.textContent = this.allSkills.size();
     if (totalKudosEl) totalKudosEl.textContent = totalKudos;
   }
 
@@ -552,7 +552,7 @@ class DevPulseApp {
       const label = audioBtn.querySelector('.audio-label');
       if (label) {
         // Defect #08: Label text condition inverted (shows 'Audio: On' when muted)
-        label.textContent = isMuted ? 'Audio: On' : 'Audio: Muted';
+        label.textContent = isMuted ? 'Audio: Muted' : 'Audio: On';
       }
       audioBtn.classList.toggle('muted', isMuted);
       if (!isMuted) window.soundFX?.playClickSound();

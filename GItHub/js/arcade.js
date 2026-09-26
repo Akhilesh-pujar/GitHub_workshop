@@ -76,7 +76,7 @@ class GitArcade {
           "Checks the spelling of your code."
         ],
         // Defect #05: Answer key index points to 0 ('Deletes a branch') instead of 1
-        correct: 0,
+        correct: 1,
         explanation: "Correct! The `-b` flag tells checkout to create the branch if it doesn't already exist."
       }
     ];
