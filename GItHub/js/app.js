@@ -108,7 +108,7 @@ class DevPulseApp {
 
   updateStatsCounters() {
     const totalCountEl = document.getElementById('stat-total-contributors');
-    const skillsCountEl = document.getElementById('stat-unique-skills');
+    const uniqueSkillsCount = document.getElementById('stat-unique-skills');
     const totalKudosEl = document.getElementById('stat-total-kudos');
 
     if (totalCountEl) totalCountEl.textContent = this.profiles.length;
@@ -121,7 +121,7 @@ class DevPulseApp {
     });
 
     // Defect #02: uniqueSkillsCount property is undefined on this class
-    if (skillsCountEl) skillsCountEl.textContent = this.uniqueSkillsCount;
+    if (uniqueSkillsCount) uniqueSkillsCount.textContent = this.uniqueSkillsCount;
     if (totalKudosEl) totalKudosEl.textContent = totalKudos;
   }
 
