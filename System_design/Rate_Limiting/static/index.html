@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rate Limiting Interactive Visualizer | System Design</title>
+  <meta name="description" content="An interactive system design visualizer demonstrating rate limiting algorithms (Token Bucket, Sliding Window Counter, Fixed Window) with FastAPI and Vanilla JS.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="logo-badge">
+          <span class="pulse-dot"></span>
+          <span>SYSTEM DESIGN LAB</span>
+        </div>
+        <h1 class="main-title">Rate Limiting Visualizer</h1>
+        <p class="subtitle">Experience how high-scale distributed systems protect APIs from traffic spikes and DoS attacks</p>
+      </div>
+      <div class="header-right">
+        <div class="client-indicator">
+          <span class="label">CLIENT IP / ID:</span>
+          <span id="client-id-display" class="mono-badge">Connecting...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Top Stats Bar -->
+    <section class="stats-grid">
+      <div class="stat-card" id="card-status">
+        <div class="stat-icon">🚦</div>
+        <div class="stat-info">
+          <div class="stat-label">LAST RESPONSE</div>
+          <div class="stat-value" id="val-last-status">Ready</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🪙</div>
+        <div class="stat-info">
+          <div class="stat-label">AVAILABLE QUOTA</div>
+          <div class="stat-value"><span id="val-remaining">5.0</span> <span class="stat-sub" id="val-limit-sub">/ 5</span></div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⏱️</div>
+        <div class="stat-info">
+          <div class="stat-label">RETRY-AFTER</div>
+          <div class="stat-value" id="val-retry-after">0.0s</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-info">
+          <div class="stat-label">TOTAL REQUESTS (ALLOWED / BLOCKED)</div>
+          <div class="stat-value"><span class="text-green" id="val-allowed-count">0</span> / <span class="text-red" id="val-blocked-count">0</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-grid">
+      <!-- Left Column: Visualizer & Controls -->
+      <section class="panel visualizer-panel">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <span class="icon">⚡</span>
+            <h2>Live Algorithm Visualizer</h2>
+          </div>
+          <div class="algorithm-selector-wrap">
+            <label for="algorithm-select" class="sr-only">Algorithm:</label>
+            <select id="algorithm-select" class="custom-select" aria-label="Select Rate Limiting Algorithm">
+              <option value="token_bucket" selected>Token Bucket (Default)</option>
+              <option value="sliding_window">Sliding Window Counter</option>
+              <option value="fixed_window">Fixed Window Counter</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Dynamic Visualization Display -->
+        <div class="visualizer-stage" id="visualizer-stage">
+          <!-- Bucket Visual (Token Bucket) -->
+          <div id="token-bucket-view" class="vis-view active">
+            <div class="bucket-container">
+              <div class="bucket-rim"></div>
+              <div class="bucket-body">
+                <div class="bucket-fill" id="bucket-fill"></div>
+                <div class="tokens-layer" id="tokens-layer">
+                  <!-- Dynamic token coins will render here -->
+                </div>
+              </div>
+              <div class="bucket-base"></div>
+              <div class="bucket-faucet">
+                <span class="faucet-pipe"></span>
+                <span class="faucet-drip" id="faucet-drip">🪙</span>
+              </div>
+            </div>
+            <div class="bucket-labels">
+              <div class="quota-pill" id="quota-pill">5 / 5 Tokens Available</div>
+              <div class="refill-rate-label" id="refill-speed-label">+1.0 token / sec refill</div>
+            </div>
+          </div>
+
+          <!-- Window Visual (Fixed & Sliding Window) -->
+          <div id="window-view" class="vis-view">
+            <div class="window-bar-wrap">
+              <div class="window-info-row">
+                <span>Window Elapsed: <strong id="window-timer">0.0s</strong> / <span id="window-total">10s</span></span>
+                <span>Count: <strong id="window-count-val">0</strong> / <span id="window-max-val">5</span></span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-bar-time" id="window-time-bar"></div>
+              </div>
+              <div class="counter-slots" id="counter-slots">
+                <!-- Request usage blocks -->
+              </div>
+            </div>
+            <div class="window-note" id="window-algorithm-note">
+              Sliding Window smoothly weighs previous and current windows to prevent boundary spikes.
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="action-controls">
+          <div class="button-row">
+            <button id="btn-send-single" class="action-btn btn-primary" title="Send a single request to the rate-limited API">
+              <span class="btn-icon">🚀</span>
+              <span class="btn-text">Send Request</span>
+            </button>
+            <button id="btn-send-burst" class="action-btn btn-warning" title="Send 5 requests simultaneously to test burst capacity">
+              <span class="btn-icon">⚡</span>
+              <span class="btn-text">Burst (5x)</span>
+            </button>
+            <button id="btn-toggle-spam" class="action-btn btn-danger" title="Toggle rapid automatic requests">
+              <span class="btn-icon" id="spam-icon">🔥</span>
+              <span class="btn-text" id="spam-text">Auto Attack</span>
+            </button>
+            <button id="btn-reset" class="action-btn btn-secondary" title="Reset rate limit bucket/counters">
+              <span class="btn-icon">🔄</span>
+              <span class="btn-text">Reset Quota</span>
+            </button>
+          </div>
+
+          <div class="attack-speed-control" id="spam-slider-wrap">
+            <label for="spam-interval">Attack Interval: <span id="interval-display">300ms</span></label>
+            <input type="range" id="spam-interval" min="100" max="1000" step="50" value="300">
+          </div>
+        </div>
+
+        <!-- Tuning Parameters Panel -->
+        <div class="config-drawer">
+          <div class="config-header">
+            <h3>⚙️ Algorithm Tuning Parameters</h3>
+            <button id="btn-apply-config" class="btn-apply">Apply Config</button>
+          </div>
+          <div class="config-inputs-grid" id="config-fields-token">
+            <div class="input-group">
+              <label for="input-capacity">Bucket Capacity (Burst Max)</label>
+              <input type="number" id="input-capacity" min="1" max="50" value="5">
+            </div>
+            <div class="input-group">
+              <label for="input-refill">Refill Rate (Tokens/sec)</label>
+              <input type="number" id="input-refill" min="0.1" max="20" step="0.5" value="1.0">
+            </div>
+          </div>
+          <div class="config-inputs-grid hidden" id="config-fields-window">
+            <div class="input-group">
+              <label for="input-limit">Request Limit</label>
+              <input type="number" id="input-limit" min="1" max="50" value="5">
+            </div>
+            <div class="input-group">
+              <label for="input-window">Window Duration (Seconds)</label>
+              <input type="number" id="input-window" min="2" max="60" value="10">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Inspector & Request Log -->
+      <section class="panel inspector-panel">
+        <div class="panel-header">
+          <div class="panel-title-wrap">
+            <span class="icon">🔍</span>
+            <h2>HTTP Headers & Response Inspector</h2>
+          </div>
+          <span class="badge" id="endpoint-badge">GET /api/ping</span>
+        </div>
+
+        <div class="headers-inspector">
+          <div class="header-item">
+            <span class="h-name">HTTP Status</span>
+            <span class="h-val" id="insp-status">-</span>
+          </div>
+          <div class="header-item">
+            <span class="h-name">X-RateLimit-Limit</span>
+            <span class="h-val mono" id="insp-limit">-</span>
+          </div>
+          <div class="header-item">
+            <span class="h-name">X-RateLimit-Remaining</span>
+            <span class="h-val mono" id="insp-remaining">-</span>
+          </div>
+          <div class="header-item">
+            <span class="h-name">X-RateLimit-Reset</span>
+            <span class="h-val mono" id="insp-reset">-</span>
+          </div>
+          <div class="header-item">
+            <span class="h-name">Retry-After</span>
+            <span class="h-val mono" id="insp-retry">-</span>
+          </div>
+          <div class="header-item">
+            <span class="h-name">X-RateLimit-Algorithm</span>
+            <span class="h-val mono" id="insp-algo">-</span>
+          </div>
+        </div>
+
+        <!-- Request Activity Log -->
+        <div class="log-section">
+          <div class="log-header">
+            <h3>Recent Request Stream</h3>
+            <button id="btn-clear-log" class="text-btn">Clear Log</button>
+          </div>
+          <div class="table-container">
+            <table class="request-table" id="request-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                  <th>Remaining</th>
+                  <th>Latency</th>
+                  <th>Outcome</th>
+                </tr>
+              </thead>
+              <tbody id="log-tbody">
+                <tr class="empty-row"><td colspan="6">No requests sent yet. Click "Send Request" to begin!</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- System Design Educational Knowledge Section -->
+    <section class="panel system-design-panel">
+      <div class="panel-header">
+        <div class="panel-title-wrap">
+          <span class="icon">🧠</span>
+          <h2>System Design: How Rate Limiting Works in Production</h2>
+        </div>
+        <div class="tabs-nav">
+          <button class="tab-btn active" data-tab="tab-concepts">Key Concepts</button>
+          <button class="tab-btn" data-tab="tab-algorithms">Algorithms Comparison</button>
+          <button class="tab-btn" data-tab="tab-distributed">Distributed Systems & Redis</button>
+          <button class="tab-btn" data-tab="tab-code">Python Implementation</button>
+        </div>
+      </div>
+
+      <div class="tab-content active" id="tab-concepts">
+        <div class="concepts-grid">
+          <div class="concept-card">
+            <div class="c-icon">🛡️</div>
+            <h4>DDoS & Brute-Force Protection</h4>
+            <p>Prevents malicious actors or buggy clients from overwhelming API gateways, authentication endpoints, and backend databases.</p>
+          </div>
+          <div class="concept-card">
+            <div class="c-icon">⚖️</div>
+            <h4>Fair Resource Allocation</h4>
+            <p>Ensures multi-tenant fairness so one heavy client or noisy neighbor cannot starve other legitimate users of compute or bandwidth.</p>
+          </div>
+          <div class="concept-card">
+            <div class="c-icon">💰</div>
+            <h4>Cost Management</h4>
+            <p>Caps consumption on expensive third-party external APIs (e.g. OpenAI, Stripe, Twilio) to avoid surprise infrastructure bills.</p>
+          </div>
+          <div class="concept-card">
+            <div class="c-icon">📐</div>
+            <h4>Graceful Degradation</h4>
+            <p>Returns standard HTTP <code>429 Too Many Requests</code> with a <code>Retry-After</code> header, allowing well-behaved clients to implement exponential backoff.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-algorithms">
+        <div class="comparison-table-wrapper">
+          <table class="algo-table">
+            <thead>
+              <tr>
+                <th>Algorithm</th>
+                <th>Burst Handling</th>
+                <th>Memory Cost</th>
+                <th>Pros</th>
+                <th>Cons</th>
+                <th>Typical Real-World Use Case</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Token Bucket</strong></td>
+                <td><span class="tag-good">Excellent</span> (Up to capacity)</td>
+                <td><code>O(1)</code></td>
+                <td>Easy to understand, allows short bursts without rejecting legitimate traffic, smooth refill.</td>
+                <td>Requires tuning 2 parameters (capacity & refill rate).</td>
+                <td>AWS API Gateway, Stripe API, Cloudflare, GitHub REST API</td>
+              </tr>
+              <tr>
+                <td><strong>Leaky Bucket</strong></td>
+                <td><span class="tag-neutral">Smooths out</span> (Queue based)</td>
+                <td><code>O(Queue Size)</code></td>
+                <td>Guarantees steady continuous outflow, perfect traffic shaping.</td>
+                <td>Bursts fill queue; slow processing can cause high latency for delayed requests.</td>
+                <td>Packet routing, video/audio streaming, database ingest pipelines</td>
+              </tr>
+              <tr>
+                <td><strong>Fixed Window Counter</strong></td>
+                <td><span class="tag-bad">Vulnerable</span> (2x burst at edge)</td>
+                <td><code>O(1)</code></td>
+                <td>Very simple to implement in Redis with <code>INCR</code> and <code>EXPIRE</code>.</td>
+                <td>A client can send limit requests at 00:59 and another at 01:00, exceeding limit 2x.</td>
+                <td>Low-cost basic rate limits (e.g. 100 req/day per user tier)</td>
+              </tr>
+              <tr>
+                <td><strong>Sliding Window Counter</strong></td>
+                <td><span class="tag-good">Fair</span></td>
+                <td><code>O(1)</code></td>
+                <td>Smooths the boundary burst issue of fixed windows with minimal memory.</td>
+                <td>Approximation based on uniform request assumption.</td>
+                <td>Modern microservice gateways (Envoy, Kong, Spring Cloud Gateway)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-distributed">
+        <div class="distributed-diagram-container">
+          <div class="arch-box">
+            <h4>Distributed Architecture with Redis</h4>
+            <p>In production clusters with multiple web server instances behind a Load Balancer, in-memory rate limiting within a single server doesn't work because requests are round-robined across different instances.</p>
+            <div class="architecture-flow">
+              <div class="flow-step">1. Client Request</div>
+              <div class="flow-arrow">➔</div>
+              <div class="flow-step">2. Load Balancer (Nginx/ALB)</div>
+              <div class="flow-arrow">➔</div>
+              <div class="flow-step">3. FastAPI Node</div>
+              <div class="flow-arrow">➔</div>
+              <div class="flow-step highlight">4. Atomic Redis Lua Script</div>
+              <div class="flow-arrow">➔</div>
+              <div class="flow-step">5. Allow or Return 429</div>
+            </div>
+            <div class="redis-snippet">
+              <h5>Atomic Lua Script Pattern for Redis Token Bucket:</h5>
+              <pre><code>-- KEYS[1]: bucket key (e.g. rate:user_123)
+-- ARGV[1]: capacity, ARGV[2]: refill_rate, ARGV[3]: now_timestamp, ARGV[4]: cost
+local data = redis.call("HMGET", KEYS[1], "tokens", "last_refill")
+local tokens = tonumber(data[1]) or tonumber(ARGV[1])
+local last = tonumber(data[2]) or tonumber(ARGV[3])
+local elapsed = math.max(0, tonumber(ARGV[3]) - last)
+
+-- Refill tokens
+tokens = math.min(tonumber(ARGV[1]), tokens + elapsed * tonumber(ARGV[2]))
+
+if tokens >= tonumber(ARGV[4]) then
+    tokens = tokens - tonumber(ARGV[4])
+    redis.call("HMSET", KEYS[1], "tokens", tokens, "last_refill", ARGV[3])
+    redis.call("EXPIRE", KEYS[1], 3600)
+    return {1, tokens} -- ALLOWED
+else
+    redis.call("HMSET", KEYS[1], "tokens", tokens, "last_refill", ARGV[3])
+    return {0, tokens} -- REJECTED (429)
+end</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-code">
+        <div class="code-view-container">
+          <pre><code class="language-python">class TokenBucketRateLimiter:
+    def __init__(self, capacity: float = 5.0, refill_rate: float = 1.0):
+        self.capacity = float(capacity)
+        self.refill_rate = float(refill_rate) # tokens added per second
+        self.buckets = {}
+        self.lock = threading.Lock()
+
+    def acquire(self, key: str = "default", cost: float = 1.0):
+        with self.lock:
+            now = time.time()
+            current_tokens = self._get_current_tokens(key, now)
+
+            if current_tokens >= cost:
+                # Allowed: decrement tokens
+                current_tokens -= cost
+                self.buckets[key] = {"tokens": current_tokens, "last_refill": now}
+                return True, current_tokens, 0.0, self.capacity
+            else:
+                # Rate limited: calculate retry-after seconds
+                needed = cost - current_tokens
+                retry_after = round(needed / self.refill_rate, 2)
+                return False, current_tokens, retry_after, self.capacity</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>System Design Concept: <strong>Rate Limiting</strong> | Powered by <strong>FastAPI</strong> &amp; <strong>Vanilla Web Tech</strong></p>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
