@@ -1,0 +1,25 @@
+{
+  "username": "ada-lovelace",
+  "name": "Ada Lovelace",
+  "role": "Pioneer of Algorithmic Science",
+  "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80",
+  "bio": "Envisioned poetical science and created the world's very first computer algorithm for the Analytical Engine.",
+  "location": "London, UK",
+  "skills": ["Algorithms", "Mathematics", "Analytical Engine", "Problem Solving"],
+  "stats": {
+    "debugging": 99,
+    "caffeine": 80,
+    "promptCrafting": 98,
+    "lateNightCoding": 92
+  },
+  "signatureMove": {
+    "name": "Bernoulli Matrix",
+    "description": "Calculates complex sequences flawlessly before electronic computers existed."
+  },
+  "socials": {
+    "github": "https://github.com",
+    "linkedin": "https://linkedin.com",
+    "portfolio": "https://en.wikipedia.org/wiki/Ada_Lovelace"
+  },
+  "favoriteQuote": "The Analytical Engine weaves algebraical patterns just as the Jacquard loom weaves flowers."
+}

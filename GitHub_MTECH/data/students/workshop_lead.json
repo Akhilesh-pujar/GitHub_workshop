@@ -1,0 +1,25 @@
+{
+  "username": "workshop-lead",
+  "name": "Workshop Lead",
+  "role": "Git Guide & Open Source Mentor",
+  "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+  "bio": "Guiding the next generation of engineers through commits, pull requests, and open source collaboration!",
+  "location": "Global / Campus Lab",
+  "skills": ["Git", "GitHub Actions", "Architecture", "JavaScript", "Mentorship"],
+  "stats": {
+    "debugging": 95,
+    "caffeine": 98,
+    "promptCrafting": 92,
+    "lateNightCoding": 90
+  },
+  "signatureMove": {
+    "name": "Rebase Enlightenment",
+    "description": "Transforms messy commit histories into pristine, linear works of art."
+  },
+  "socials": {
+    "github": "https://github.com",
+    "linkedin": "https://linkedin.com",
+    "portfolio": "https://github.com"
+  },
+  "favoriteQuote": "Great software is not written, it is rewritten together."
+}

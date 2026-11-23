@@ -1,0 +1,25 @@
+{
+  "username": "torvalds",
+  "name": "Linus Torvalds",
+  "role": "Creator of Linux & Git",
+  "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
+  "bio": "Created Git over a weekend because existing version control tools weren't fast enough for the Linux kernel.",
+  "location": "Portland, Oregon",
+  "skills": ["C", "Linux Kernel", "Git Internals", "Distributed Systems"],
+  "stats": {
+    "debugging": 99,
+    "caffeine": 95,
+    "promptCrafting": 80,
+    "lateNightCoding": 99
+  },
+  "signatureMove": {
+    "name": "Kernel Panic Reversal",
+    "description": "Blasts through race conditions and memory leaks at bare-metal speeds."
+  },
+  "socials": {
+    "github": "https://github.com/torvalds",
+    "linkedin": "https://linkedin.com",
+    "portfolio": "https://github.com/torvalds/linux"
+  },
+  "favoriteQuote": "Talk is cheap. Show me the code."
+}
