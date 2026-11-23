@@ -7,14 +7,14 @@
 
 :root {
   /* Surface & Base Colors */
-  --bg-canvas: #0f2a64;
+  --bg-canvas: #0e4eda;
   --bg-surface: #0f1523;
   --bg-card: #141b2d;
   --bg-card-hover: #182238;
   --bg-input: #0c121e;
 
   /* Borders */
-  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(247, 16, 16, 0.08);
   --border-medium: rgba(255, 255, 255, 0.14);
   --border-focus: #3b82f6;
 
